@@ -2,7 +2,7 @@
 
 import math
 from i2clibraries import i2c
-from time import *
+#  from time import *
 
 import rospy
 from hmc5883l_ros.msg import hmc5883l_msg
@@ -28,13 +28,17 @@ class i2c_hmc5883l:
     MeasurementSingleShot = 0x01
     MeasurementIdle = 0x03
     
-    def __init__(self, port, addr=0x1e, gauss=1.3, topic='/hmc5883l', publish_rate=10):
+    def __init__(self, port, addr=0x1e, gauss=1.3, topic='/hmc5883l',
+            publish_rate=1, declinationDeg=2, declinationMin=15):
         self.bus = i2c.i2c(port, addr)
         
         self.setScale(gauss)
 
+        self.setContinuousMode()
+        self.setDeclination(declinationDeg, declinationMin)
+
         period = rospy.Duration(publish_rate)
-        pub = rospy.Publisher(topic, hmc5883l_msg, queue_size=10)
+        self.pub = rospy.Publisher(topic, hmc5883l_msg, queue_size=10)
 
         self.timer = rospy.Timer(period, self.timerCallback)
 
@@ -45,11 +49,11 @@ class i2c_hmc5883l:
         msg.axisx = x
         msg.axisy = y
         msg.axisz = z
-        msg.declination = [self.declinationDeg, declinationMin]
+        msg.declination = [self.declinationDeg, self.declinationMin]
         (degrees, minutes) = self.getHeading()
         msg.heading = [degrees, minutes]
 
-        pub.publish(msg)
+        self.pub.publish(msg)
 
 
     def __str__(self):
@@ -99,10 +103,10 @@ class i2c_hmc5883l:
         self.scale_reg = self.scale_reg << 5
         self.setOption(self.ConfigurationRegisterB, self.scale_reg)
         
-    def setDeclination(self, degree, min = 0):
+    def setDeclination(self, degree, minuets = 0):
         self.declinationDeg = degree
-        self.declinationMin = min
-        self.declination = (degree+min/60) * (math.pi/180)
+        self.declinationMin = minuets
+        self.declination = (degree+minuets/60) * (math.pi/180)
         
     def setOption(self, register, *function_set):
         options = 0x00
