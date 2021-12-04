@@ -1,0 +1,21 @@
+#!/bin/bash
+
+## To communicate from PC to ros running on rpi
+
+# To connect ros across devices, you need to tell it where said ros instances
+# are. Assuming *.137 is the rpi and *.148 is the PC,
+
+# rpi side: Uncomment these
+
+# ROS_MASTER_URI is the address of the rosmaster(rpi in this case)
+export ROS_MASTER_URI=http://192.168.36.137:11311/
+# ROS_HOSTNAME is the address of this device(rpi in this case)
+export ROS_HOSTNAME=192.168.36.137
+
+
+## PC side: Uncomment these
+
+## ROS_MASTER_URI is the address of the rosmaster(rpi in this case)
+#export ROS_MASTER_URI=http://192.168.36.137:11311/
+## ROS_HOSTNAME is the address of this device(PC in this case)
+#export ROS_HOSTNAME=192.168.36.148

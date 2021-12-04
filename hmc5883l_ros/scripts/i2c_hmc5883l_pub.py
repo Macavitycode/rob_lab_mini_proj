@@ -41,6 +41,7 @@ class i2c_hmc5883l:
         self.pub = rospy.Publisher(topic, hmc5883l_msg, queue_size=10)
 
         self.timer = rospy.Timer(period, self.timerCallback)
+        self.counter = 0
 
 
     def timerCallback(self, event):
@@ -53,6 +54,8 @@ class i2c_hmc5883l:
         (degrees, minutes) = self.getHeading()
         msg.heading = [degrees, minutes]
 
+        self.counter += 1
+        print('Publishing ', str(self.counter))
         self.pub.publish(msg)
 
 
@@ -137,6 +140,8 @@ class i2c_hmc5883l:
     # Returns heading in degrees and minutes
     def getHeading(self):
         (scaled_x, scaled_y, scaled_z) = self.getAxes()
+
+        #  print(scaled_x)
         
         headingRad = math.atan2(scaled_y, scaled_x)
         headingRad += self.declination
@@ -161,6 +166,8 @@ class i2c_hmc5883l:
         
     def getAxes(self):
         (magno_x, magno_z, magno_y) = self.bus.read_3s16int(self.AxisXDataRegisterMSB)
+
+        #  print(magno_x)
 
         if (magno_x == -4096):
             magno_x = None
