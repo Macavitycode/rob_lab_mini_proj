@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="hmc5883l_node" pkg="hmc5883l_ros" type="demo.py" output="screen"/>
+</launch>

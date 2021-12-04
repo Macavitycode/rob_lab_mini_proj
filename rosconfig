@@ -8,9 +8,9 @@
 # rpi side: Uncomment these
 
 # ROS_MASTER_URI is the address of the rosmaster(rpi in this case)
-export ROS_MASTER_URI=http://192.168.36.137:11311/
+export ROS_MASTER_URI=http://192.168.228.137:11311/
 # ROS_HOSTNAME is the address of this device(rpi in this case)
-export ROS_HOSTNAME=192.168.36.137
+export ROS_HOSTNAME=192.168.228.137
 
 
 ## PC side: Uncomment these

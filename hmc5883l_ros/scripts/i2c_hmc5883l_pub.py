@@ -30,13 +30,12 @@ class i2c_hmc5883l:
     
     def __init__(self, port, addr=0x1e, gauss=1.3, topic='/hmc5883l',
             publish_rate=1, declinationDeg=2, declinationMin=15):
+
         self.bus = i2c.i2c(port, addr)
         
         self.setScale(gauss)
-
         self.setContinuousMode()
         self.setDeclination(declinationDeg, declinationMin)
-
         period = rospy.Duration(publish_rate)
         self.pub = rospy.Publisher(topic, hmc5883l_msg, queue_size=10)
 
@@ -45,6 +44,7 @@ class i2c_hmc5883l:
 
 
     def timerCallback(self, event):
+
         msg = hmc5883l_msg()
         (x, y, z) = self.getAxes()
         msg.axisx = x
@@ -142,7 +142,7 @@ class i2c_hmc5883l:
         (scaled_x, scaled_y, scaled_z) = self.getAxes()
 
         #  print(scaled_x)
-        
+
         headingRad = math.atan2(scaled_y, scaled_x)
         headingRad += self.declination
 
@@ -158,8 +158,12 @@ class i2c_hmc5883l:
         headingDeg = headingRad * 180/math.pi
         degrees = math.floor(headingDeg)
         minutes = round(((headingDeg - degrees) * 60))
-        return (degrees, minutes)
+
+        degrees = 0.0
+        minutes = 0.0
     
+        return (degrees, minutes)
+
     def getHeadingString(self):
         (degrees, minutes) = self.getHeading()
         return str(degrees)+"\u00b0 "+str(minutes)+"'"
@@ -167,7 +171,7 @@ class i2c_hmc5883l:
     def getAxes(self):
         (magno_x, magno_z, magno_y) = self.bus.read_3s16int(self.AxisXDataRegisterMSB)
 
-        #  print(magno_x)
+        #  print(magno_x, magno_y, magno_z)
 
         if (magno_x == -4096):
             magno_x = None
