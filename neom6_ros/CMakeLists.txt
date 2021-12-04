@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(hmc5883l_ros)
+project(neom6_ros)
 
 find_package(catkin REQUIRED COMPONENTS
   message_generation
@@ -10,7 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 add_message_files(
   FILES
-  hmc5883l_msg.msg
+  neom6_msg.msg
 )
 
 generate_messages(

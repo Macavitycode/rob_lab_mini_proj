@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>hmc5883l_ros</name>
+  <name>neom6_ros</name>
   <version>0.0.0</version>
-  <description>The hmc5883l_msg package</description>
+  <description>The neom6_ros package</description>
   <maintainer email="user@todo.todo">Shashank Moghe</maintainer>
 
   <license>MIT</license>
