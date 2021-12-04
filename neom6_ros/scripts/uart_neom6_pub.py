@@ -14,9 +14,9 @@ class neom6:
     def __init__(self, topic='/neom6', publish_rate=10):
 
         self.port = "/dev/ttyS0"
-        self.ser = serial.Serial(port, baudrate=9600, timeout=0.5)
+        self.ser = serial.Serial(self.port, baudrate=9600, timeout=0.5)
         self.dataout = pynmea2.NMEAStreamReader()
-        self.newdata = ser.readline()
+        self.newdata = self.ser.readline()
 
         period = rospy.Duration(publish_rate)
         self.pub = rospy.Publisher(topic, neom6_msg, queue_size=10)
@@ -28,7 +28,7 @@ class neom6:
 
         msg = neom6_msg
 
-        if newdata[0:6] == "$GPRMC":
+        if self.newdata[0:6] == "$GPRMC":
             newmsg = pynmea2.parse(self.newdata)
             lat = newmsg.latitude
             long = newmsg.longitude
