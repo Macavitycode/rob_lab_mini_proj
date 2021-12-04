@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="neom6_node" pkg="neom6_ros" type="demo.py" output="screen"/>
+</launch>

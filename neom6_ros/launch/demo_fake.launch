@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="lat" type="double"  value="13.360502" />
+  <param name="long" type="double" value="74.78637" />
+  <node name="neom6_node" pkg="neom6_ros" type="demo_fake.py" output="screen"/>
+</launch>
